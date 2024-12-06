@@ -24,7 +24,7 @@ fn main() {
 }
 
 fn part_1(input: &Vec<Vec<char>>) {
-    let mut cloned= input.clone();
+    let mut cloned = input.clone();
 
     for i in 0..input.len() {
         for j in 0..input[0].len() {
@@ -49,24 +49,24 @@ fn part_1(input: &Vec<Vec<char>>) {
 }
 
 fn walk(mut i: usize, mut j: usize, input: &Vec<Vec<char>>, cloned: &mut Vec<Vec<char>>) -> bool {
-    let timeout = 100_000;
+    let mut hit = vec![];
     let mut direction = Direction::N;
-    let mut iter = 0;
     loop {
-        iter += 1;
         cloned[i][j] = 'X';
         if left(i, j, input, direction) {
             return false;
         }
-        if iter == timeout {
-            return true;
-        }
 
-         let (di, dj) = step(i, j, direction);
+        let (di, dj) = step(i, j, direction);
         if input[di][dj] == '.' || input[di][dj] == '^' {
             i = di;
             j = dj;
         } else {
+            if hit.contains(&(di, dj, direction)) {
+                return true;
+            }
+
+            hit.push((di, dj, direction));
             direction = match direction {
                 Direction::N => Direction::E,
                 Direction::E => Direction::S,
@@ -98,12 +98,11 @@ fn step(i: usize, j: usize, dir: Direction) -> (usize, usize) {
         (i, j + 1)
     } else if dir == Direction::S {
         (i + 1, j)
-    } else{
+    } else {
         (i, j - 1)
     }
 }
 
-/// 🙈
 fn part_2(input: &Vec<Vec<char>>) {
     let mut start_i = 0;
     let mut start_j = 0;
@@ -136,7 +135,6 @@ fn part_2(input: &Vec<Vec<char>>) {
 
     println!("Part 2: {sum}");
 }
-
 
 fn read_lines(filename: &str) -> io::Lines<io::BufReader<File>> {
     let file = File::open(filename).expect("Could not open file");
