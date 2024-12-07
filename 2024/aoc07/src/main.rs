@@ -1,5 +1,8 @@
 use std::{
-    collections::VecDeque, fs::File, io::{self, BufRead}, usize
+    collections::VecDeque,
+    fs::File,
+    io::{self, BufRead},
+    usize,
 };
 
 fn main() {
@@ -32,7 +35,7 @@ fn main() {
 
 fn eval(operands: &VecDeque<usize>, target: usize, ops: &Vec<&str>) -> bool {
     if operands.len() == 1 {
-        return operands[0] == target
+        return operands[0] == target;
     }
 
     let mut equal = false;
@@ -48,7 +51,6 @@ fn eval(operands: &VecDeque<usize>, target: usize, ops: &Vec<&str>) -> bool {
 
     equal
 }
-
 
 fn apply(op: &str, x: usize, y: usize) -> usize {
     if op == "+" {
